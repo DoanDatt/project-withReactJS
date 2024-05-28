@@ -1,8 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./CartItems.css";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
 const CartItems = () => {
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  // Xử lý sự kiện khi nhấn nút "PROCEED TO CHECKOUT"
+  const handleCheckout = () => {
+    // Thực hiện các bước xử lý thanh toán ở đây
+
+    // Sau khi thanh toán thành công, hiển thị thông báo
+    setShowSuccessMessage(true);
+
+    // Tự động ẩn thông báo sau 5 giây
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 5000);
+  };
+
   const { getTotalCartAmount, all_product, cartItems, removeToCart } =
     useContext(ShopContext);
   return (
@@ -62,7 +77,11 @@ const CartItems = () => {
               <h3>${getTotalCartAmount()}</h3>
             </div>
           </div>
-          <button>PROCEED TO CHECKOUT</button>
+          {/* <button>PROCEED TO CHECKOUT</button> */}
+          <button onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
+          {showSuccessMessage && (
+            <div className="success-message">Thanh Toán Thành Công!!!</div>
+          )}
         </div>
         <div className="cartitems-promocode">
           <p>If you have a promo code, Enter it here</p>
